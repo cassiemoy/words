@@ -1,9 +1,12 @@
-def build_paragraph()
+def build_paragraph(words)
+  10.times do
+    print build_sentence(words) + "\n"
+  end
 end
 
 def build_sentence(words)
   sentence = words.sample(10)
-  return sentence
+  sentence.join(' ').capitalize + '.'
 end
 
 def generate()
@@ -18,9 +21,10 @@ def generate()
   content = File.read(input)
   all_words = []
   content.split(/\s/).each { |word| all_words << word.gsub(/\W/, '').downcase }
-  
-  p build_sentence(all_words)
-
+  build_paragraph(all_words)
 end
 
 generate()
+
+# Test cases
+# What if the 80 char limit is impossible?
