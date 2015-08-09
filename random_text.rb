@@ -1,30 +1,24 @@
 def build_paragraph(words)
   paragraph = []
   10.times { paragraph << words.sample(10).join(" ").capitalize + '.' }
-  return paragraph
+  return paragraph.join(" ")
 end
 
 def wrap_text(paragraph)
   line = ''
-  overflow = []
 
-  paragraph.each do |sentence|
-    exploded = sentence.split(" ")
+  paragraph.split(" ").each do |word|
+    new_length = line.length + word.length + 1
 
-    exploded.each do |word|
-      if line.length <= 80 && line.length + word.length > 80
-        print line + "\n"
-        line = overflow.join(" ")
-        overflow.clear()
-      end
-
-      if line.length + word.length <= 80
-        line += word + ' '
-      else
-        overflow << word
-      end
+    if line.length <= 80 && new_length > 80
+      print line + line.length.to_s + "\n"
+      line = word + ' '
+    else
+      line += word + ' '
     end
   end
+
+  print line + "\n"
 end
 
 def generate()
@@ -39,7 +33,7 @@ def generate()
   content = File.read(input)
   all_words = []
   content.split(/\s/).each { |word| all_words << word.gsub(/\W/, '').downcase }
-  all_words.delete(" ")
+  all_words.delete("")
   paragraph = build_paragraph(all_words)
   wrap_text(paragraph)
 end
