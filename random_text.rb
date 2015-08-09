@@ -11,7 +11,7 @@ def wrap_text(paragraph)
     new_length = line.length + word.length + 1
 
     if line.length <= 80 && new_length > 80
-      print line + line.length.to_s + "\n"
+      print line + "\n"
       line = word + ' '
     else
       line += word + ' '
@@ -38,7 +38,6 @@ def generate()
   wrap_text(paragraph)
 end
 
-generate()
-
-# Test cases
-# What if the 80 char limit is impossible?
+loop do
+  generate()
+end
