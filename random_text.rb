@@ -1,12 +1,30 @@
 def build_paragraph(words)
-  10.times do
-    print build_sentence(words) + "\n"
-  end
+  paragraph = []
+  10.times { paragraph << words.sample(10).join(" ").capitalize + '.' }
+  return paragraph
 end
 
-def build_sentence(words)
-  sentence = words.sample(10)
-  sentence.join(' ').capitalize + '.'
+def wrap_text(paragraph)
+  line = ''
+  overflow = []
+
+  paragraph.each do |sentence|
+    exploded = sentence.split(" ")
+
+    exploded.each do |word|
+      if line.length <= 80 && line.length + word.length > 80
+        print line + "\n"
+        line = overflow.join(" ")
+        overflow.clear()
+      end
+
+      if line.length + word.length <= 80
+        line += word + ' '
+      else
+        overflow << word
+      end
+    end
+  end
 end
 
 def generate()
@@ -21,7 +39,9 @@ def generate()
   content = File.read(input)
   all_words = []
   content.split(/\s/).each { |word| all_words << word.gsub(/\W/, '').downcase }
-  build_paragraph(all_words)
+  all_words.delete(" ")
+  paragraph = build_paragraph(all_words)
+  wrap_text(paragraph)
 end
 
 generate()
