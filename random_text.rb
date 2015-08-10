@@ -1,20 +1,20 @@
 def build_paragraph(words)
   paragraph = []
-  10.times { paragraph << words.sample(10).join(" ").capitalize + "." }
+  10.times { paragraph << words.sample(10).join("\s").capitalize + "." }
   return paragraph.join(" ")
 end
 
 def wrap_text(paragraph)
   line = ""
 
-  paragraph.split(" ").each do |word|
+  paragraph.split(/\s/).each do |word|
     new_length = line.length + word.length + 1
 
     if line.length <= 80 && new_length > 80
       print line + "\n"
-      line = word + " "
+      line = word + "\s"
     else
-      line += word + " "
+      line += word + "\s"
     end
   end
 
@@ -25,13 +25,15 @@ def generate()
   all_words = []
 
   loop do
-    Dir.entries('.').each do |file|
-      if File.extname(file) == '.txt'
+    Dir.entries(".").each do |file|
+      if File.extname(file) == ".txt"
         input = File.read(file)
-        input.split(/\s/).each { |word| all_words << word.gsub(/\W/, "").downcase }
-        all_words.delete("")
-        paragraph = build_paragraph(all_words)
-        wrap_text(paragraph)
+        
+        input.split(/\s/).each do |word| 
+          all_words << word.gsub(/\W/, "").downcase if word != ""
+        end
+        
+        wrap_text(build_paragraph(all_words))
         File.delete(file)
       end
     end
