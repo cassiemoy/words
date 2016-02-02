@@ -28,8 +28,8 @@ end
 
 def print_text(output, limit)
   output.each do |line|
-    print center_text(line, limit) + "\n"
-    print right_align_text(line, limit) + "\n"
+    # print center_text(line, limit) + "\n"
+    # print right_align_text(line, limit) + "\n"
     print line + "\n"
   end
 end
